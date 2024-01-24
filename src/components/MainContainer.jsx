@@ -84,6 +84,7 @@ export default function MainContainer () {
       <List>
         <ListItem 
           items={items} 
+          setItems={setItems}
           onDeleteItem={delete_item_handler}
         />    
       </List>

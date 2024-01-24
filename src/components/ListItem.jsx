@@ -1,4 +1,4 @@
-export default function ListItem ({ items, onDeleteItem }) {
+export default function ListItem ({ items, setItems, onDeleteItem }) {
   return (
     <>
     {
@@ -10,8 +10,14 @@ export default function ListItem ({ items, onDeleteItem }) {
                 type="checkbox" 
                 className="list__checkbox" 
                 checked={item.packed} 
-                onChange={function (value) {
-                  console.log('checked: ', value);
+                onChange={function (event) {
+                  setItems(function (previous_items) {
+                    return previous_items.map(function (prev_item) {
+                      if (prev_item.id === item.id) 
+                        prev_item.packed =  event.target.checked;
+                      return prev_item;
+                    });
+                  });
                 }}
               />
               { item.name }

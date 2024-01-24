@@ -3,6 +3,7 @@ import { useState } from "react"
 import AddItem from "./AddItem";
 import ButtonContainer from "./ButtonContainer";
 import List from "./List";
+import ListItem from "./ListItem";
 
 const initial_items = [
   {
@@ -54,11 +55,16 @@ export default function MainContainer () {
 
   return (
     <main className="main">
-      <List items={items} onDeleteItem={delete_item_handler} />
+      <List>
+        <ListItem 
+          items={items} 
+          onDeleteItem={delete_item_handler}
+        />    
+      </List>
       <div className="sidebar main__sidebar">
         <AddItem onAddItem={add_item_handler} />
         <ButtonContainer />
       </div>
     </main>
   );
-} 
+}  

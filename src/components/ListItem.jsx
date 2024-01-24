@@ -1,3 +1,6 @@
+// @Todo
+// [] swmitch key to item.id
+
 export default function ListItem ({ items, onDeleteItem }) {
   return (
     <>

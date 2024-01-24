@@ -1,5 +1,4 @@
 import Select from "react-select";
-import ListItem from "./ListItem";
 
 const options = [
   { value: 'chocolate', label: 'Sort by default' },
@@ -7,7 +6,7 @@ const options = [
   { value: 'vanilla', label: 'Sort by unpacked' }
 ]
 
-export default function List ({ items, onDeleteItem }) {
+export default function List ({ children }) {
 
   return (
     <ul className="list main__list">
@@ -16,7 +15,7 @@ export default function List ({ items, onDeleteItem }) {
         options={options} 
         value={options[0]}
       />
-      <ListItem items={items} onDeleteItem={onDeleteItem} />
+      {children}
     </ul>
   );
 }

@@ -1,13 +1,10 @@
-// @Todo
-// [] swmitch key to item.id
-
 export default function ListItem ({ items, onDeleteItem }) {
   return (
     <>
     {
       items.map(function (item) {
         return (
-          <li key={item.name} className="list__item">
+          <li key={item.id} className="list__item">
             <label className="list__label">
               <input 
                 type="checkbox" 

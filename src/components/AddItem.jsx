@@ -1,26 +1,13 @@
 import { useState } from "react";
 
-export default function AddItem ({  setItems }) {
+export default function AddItem ({ onAddItem }) {
   const [item, setItem] = useState('');
 
 
   const on_submit_handler = function (event) {
     event.preventDefault();
 
-    setItems(function (previous_values) {
-      const _id = previous_values.reduce(function (initial_value, item) {
-        if (initial_value > item.id) return initial_value;
-        return item.id
-      }, 0) + 1;
-
-      const new_value = {
-        id: _id,
-        name: item,
-        packed: false
-      };
-
-      return [...previous_values, new_value];
-    });
+    onAddItem(item);
   };
 
   return (

@@ -71,6 +71,14 @@ export default function MainContainer () {
     });
   };
 
+  const reset_items = function () {
+    setItems(initial_items);
+  };
+
+  const remove_all_items = function () {
+    setItems([]);
+  };
+
   return (
     <main className="main">
       <List>
@@ -84,6 +92,8 @@ export default function MainContainer () {
         <ButtonContainer 
           setAllItemsPacked={set_all_items_packed}
           setAllItemsUnpacked={set_all_items_unpacked}
+          resetItems={reset_items}
+          removeAllItems={remove_all_items}
         />
       </div>
     </main>

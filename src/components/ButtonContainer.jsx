@@ -1,4 +1,9 @@
-export default function ButtonContainer ({ setAllItemsPacked, setAllItemsUnpacked }) {
+export default function ButtonContainer ({ 
+  setAllItemsPacked, 
+  setAllItemsUnpacked,
+  resetItems,
+  removeAllItems
+}) {
   return (
     <section className="button-group">
       <button 
@@ -13,8 +18,18 @@ export default function ButtonContainer ({ setAllItemsPacked, setAllItemsUnpacke
       >
           Mark all as incomplete
       </button>
-      <button className="button button_fs_14px button_mb_10px button_bc_lg">Reset to initial</button>
-      <button className="button button_fs_14px button_mb_10px button_bc_lg">Remove all items</button>
+      <button 
+        className="button button_fs_14px button_mb_10px button_bc_lg"
+        onClick={resetItems}
+      >
+          Reset to initial
+      </button>
+      <button 
+        className="button button_fs_14px button_mb_10px button_bc_lg"
+        onClick={removeAllItems}
+      >
+        Remove all items
+      </button>
     </section>
   );
 }

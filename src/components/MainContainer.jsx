@@ -50,7 +50,25 @@ export default function MainContainer () {
       return previous_items.filter(function (p_item) {
         return p_item.id !== item.id 
       });
-    })
+    });
+  };
+   
+  const set_all_items_packed = function () {
+    setItems(function (previous_items) {
+      return previous_items.map(function (item) {
+        item.packed = true; 
+        return item;
+      });
+    });
+  };
+
+  const set_all_items_unpacked = function () {
+    setItems(function (previous_items) {
+      return previous_items.map(function (item) {
+        item.packed = false; 
+        return item;
+      });
+    });
   };
 
   return (
@@ -63,7 +81,10 @@ export default function MainContainer () {
       </List>
       <div className="sidebar main__sidebar">
         <AddItem onAddItem={add_item_handler} />
-        <ButtonContainer />
+        <ButtonContainer 
+          setAllItemsPacked={set_all_items_packed}
+          setAllItemsUnpacked={set_all_items_unpacked}
+        />
       </div>
     </main>
   );

@@ -7,7 +7,7 @@ const options = [
   { value: 'vanilla', label: 'Sort by unpacked' }
 ]
 
-export default function List ({ items, setItems }) {
+export default function List ({ items, onDeleteItem }) {
 
   return (
     <ul className="list main__list">
@@ -16,7 +16,7 @@ export default function List ({ items, setItems }) {
         options={options} 
         value={options[0]}
       />
-      <ListItem items={items} setItems={setItems} />
+      <ListItem items={items} onDeleteItem={onDeleteItem} />
     </ul>
   );
 }

@@ -44,11 +44,17 @@ export default function MainContainer () {
     });
   };
 
-  const delete_item = function () {};
+  const delete_item_handler = function (item) {
+    setItems(function (previous_items) {
+      return previous_items.filter(function (p_item) {
+        return p_item.id !== item.id 
+      });
+    })
+  };
 
   return (
     <main className="main">
-      <List items={items} setItems={setItems} />
+      <List items={items} onDeleteItem={delete_item_handler} />
       <div className="sidebar main__sidebar">
         <AddItem onAddItem={add_item_handler} />
         <ButtonContainer />

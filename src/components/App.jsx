@@ -1,70 +1,19 @@
 import { useState } from "react";
+
+import { INITIAL_ITEMS, SORT_OPTIONS } from "../lib/constants";
+import { compare_fn_create } from "../lib/utils"
+
 import List from "./List";
 import ListItem from "./ListItem";
 import AddItem from "./AddItem";
 import ButtonContainer from "./ButtonContainer";
 import Select from "react-select";
 
-const initial_items = [
-  {
-    id: 1,
-    name: 'Good mood',
-    packed: true
-  },
-  {
-    id: 2,
-    name: 'Passport',
-    packed: false
-  },
-  {
-    id: 3,
-    name: 'Phone charger',
-    packed: false
-  },
-];
-
-const options = [
-  { value: 'default', label: 'Sort by default' },
-  { value: 'packed', label: 'Sort by packed' },
-  { value: 'unpacked', label: 'Sort by unpacked' }
-]
-
-const compare_fn_create = function (sort_by_value) {
-  return function (a, b) {
-    if (sort_by_value === 'packed') {
-      if (a.packed < b.packed) {
-        return 1;
-      } else if (a.packed > b.packed) {
-        return -1;
-      }  
-  
-      return 0;
-    } else if (sort_by_value === 'unpacked') {
-      if (a.packed < b.packed) {
-        return -1;
-      } else if (a.packed > b.packed) {
-        return 1;
-      }
-  
-      return 0;
-    }
-  
-    if (a.id < b.id) {
-      return -1;
-    } else if (a.id > b.id) {
-      return 1;
-    }              
-  
-    return 0;
-  };
-}; 
-
-
 export default function App() {
-  const [items, setItems] = useState(initial_items);
-  const [sortBy, setSortBy] = useState(options[0]);
+  const [items, setItems] = useState(structuredClone(INITIAL_ITEMS));
+  const [sortBy, setSortBy] = useState(SORT_OPTIONS[0]);
 
-  const add_item_handler = function (item_name) {
+  const items_insert = function (item_name) {
     if (!item_name) return;
 
     const _id = items.reduce(function (initial_value, item) {
@@ -88,15 +37,31 @@ export default function App() {
     });
   };
 
-  const delete_item_handler = function (item) {
+  const items_remove_by_id = function (item) {
     setItems(function (previous_items) {
       return previous_items.filter(function (p_item) {
         return p_item.id !== item.id 
       });
     });
   };
-   
-  const set_all_items_packed = function () {
+  
+  const items_remove_all = function () {
+    setItems([]);
+  };
+
+
+  const items_set_packed_by_id = function (id, value) {
+    setItems(function (previous_items) {
+      return previous_items.map(function (prev_item) {
+        if (prev_item.id === id) 
+          prev_item.packed = value;
+
+        return prev_item;
+      });
+    });   
+  };
+
+  const items_set_all_packed = function () {
     setItems(function (previous_items) {
       return previous_items.map(function (item) {
         item.packed = true; 
@@ -105,7 +70,7 @@ export default function App() {
     });
   };
 
-  const set_all_items_unpacked = function () {
+  const items_set_all_unpacked = function () {
     setItems(function (previous_items) {
       return previous_items.map(function (item) {
         item.packed = false; 
@@ -114,26 +79,27 @@ export default function App() {
     });
   };
 
-  const reset_items = function () {
-    setItems(initial_items);
+  const items_reset = function () {
+    setItems(structuredClone(INITIAL_ITEMS));
   };
 
-  const remove_all_items = function () {
-    setItems([]);
-  };
-
-  const items_sort_by = function (option) {
-    setSortBy(option);
+  const items_sort_by = function (value) {
     setItems(function (prev_items) {
-      return prev_items.toSorted(compare_fn_create(option.value));
+      return prev_items.toSorted(compare_fn_create(value));
     }); 
   };
 
-  const total_items_packed = items.reduce(function (initial_value, item) {
+  const on_sort_handler = function (option) {
+    setSortBy(option);
+    items_sort_by(option.value);
+  };
+
+  const items_get_total_packed = items.reduce(function (initial_value, item) {
     if (item.packed) initial_value += 1;
     return initial_value;
   }, 0);
 
+  console.log('rendering app...');
   return (
     <>   
       <h1 className="background-heading">Tripplanner</h1>
@@ -141,30 +107,31 @@ export default function App() {
         <header className="header header_secondary">
           <img src="" alt="logo" />
           <p className="header__info">
-            <b>{ total_items_packed }</b> / { items.length } items packed
+            <b>{ items_get_total_packed }</b> / { items.length } items packed
           </p>
         </header>
         <main className="main">
-          <List onSort={items_sort_by}>
+          <List>
             <Select 
               className="list__sort" 
               defaultValue={sortBy}
-              onChange={items_sort_by}
-              options={options} 
+              onChange={on_sort_handler}
+              options={SORT_OPTIONS} 
             />
             <ListItem 
               items={items} 
               setItems={setItems}
-              onDeleteItem={delete_item_handler}
+              onDeleteItem={items_remove_by_id}
+              onCheckItem={items_set_packed_by_id}
             />    
           </List>
           <div className="sidebar main__sidebar">
-            <AddItem onAddItem={add_item_handler} />
+            <AddItem onAddItem={items_insert} />
             <ButtonContainer 
-              setAllItemsPacked={set_all_items_packed}
-              setAllItemsUnpacked={set_all_items_unpacked}
-              resetItems={reset_items}
-              removeAllItems={remove_all_items}
+              setAllItemsPacked={items_set_all_packed}
+              setAllItemsUnpacked={items_set_all_unpacked}
+              resetItems={items_reset}
+              removeAllItems={items_remove_all}
             />
           </div>
         </main>

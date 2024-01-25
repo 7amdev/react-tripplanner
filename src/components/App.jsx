@@ -120,7 +120,6 @@ export default function App() {
             />
             <ListItem 
               items={items} 
-              setItems={setItems}
               onDeleteItem={items_remove_by_id}
               onCheckItem={items_set_packed_by_id}
             />    

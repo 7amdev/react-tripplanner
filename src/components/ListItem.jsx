@@ -1,6 +1,5 @@
 export default function ListItem ({ 
   items, 
-  setItems, 
   onDeleteItem, 
   onCheckItem 
 }) {

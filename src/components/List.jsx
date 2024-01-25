@@ -1,20 +1,13 @@
-import Select from "react-select";
+export default function List ({ onSort, children }) {
+  
 
-const options = [
-  { value: 'chocolate', label: 'Sort by default' },
-  { value: 'strawberry', label: 'Sort by packed' },
-  { value: 'vanilla', label: 'Sort by unpacked' }
-]
+  // const on_change_sort_by_handler = function (event) {
+  //   onSort(event.value);
+  // };
 
-export default function List ({ children }) {
-
+  // console.log('List rendering....');
   return (
     <ul className="list main__list">
-      <Select 
-        className="list__sort" 
-        options={options} 
-        value={options[0]}
-      />
       {children}
     </ul>
   );

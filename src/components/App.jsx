@@ -33,11 +33,11 @@ export default function App() {
   };
 
   const items_remove_by_id = function (item) {
-    setItems(function (previous_items) {
-      return previous_items.filter(function (p_item) {
-        return p_item.id !== item.id 
-      });
+    const items_updated = items.filter(function (p_item) {
+      return p_item.id !== item.id 
     });
+
+    setItems(items_updated);
   };
   
   const items_remove_all = function () {
@@ -46,32 +46,32 @@ export default function App() {
 
 
   const items_set_packed_by_id = function (id, value) {
-    setItems(function (previous_items) {
-      return previous_items.map(function (prev_item) {
-        if (prev_item.id === id) 
-          prev_item.packed = value;
+    const items_updated = items.map(function (prev_item) {
+      if (prev_item.id === id) 
+        prev_item.packed = value;
 
-        return prev_item;
-      });
-    });   
+      return prev_item;
+    });
+
+    setItems(items_updated);   
   };
 
   const items_set_all_packed = function () {
-    setItems(function (previous_items) {
-      return previous_items.map(function (item) {
-        item.packed = true; 
-        return item;
-      });
+    const items_updated = items.map(function (item) {
+      item.packed = true; 
+      return item;
     });
+
+    setItems(items_updated);   
   };
 
   const items_set_all_unpacked = function () {
-    setItems(function (previous_items) {
-      return previous_items.map(function (item) {
-        item.packed = false; 
-        return item;
-      });
+    const items_updated = items.map(function (item) {
+      item.packed = false; 
+      return item;
     });
+    
+    setItems(items_updated);
   };
 
   const items_reset = function () {

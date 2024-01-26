@@ -1,17 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { INITIAL_ITEMS, SORT_OPTIONS } from "../lib/constants";
 import { compare_fn_create } from "../lib/utils"
 
 import List from "./List";
-import ListItem from "./ListItem";
 import AddItem from "./AddItem";
 import ButtonContainer from "./ButtonContainer";
-import Select from "react-select";
 
 export default function App() {
-  const [items, setItems] = useState(structuredClone(INITIAL_ITEMS));
-  const [sortBy, setSortBy] = useState(SORT_OPTIONS[0]);
+  const [items, setItems] = useState(function () {
+    const data = JSON.parse(localStorage.getItem('items'));
+    if (data.length > 0) return data;
+    
+    return structuredClone(INITIAL_ITEMS);
+  });
 
   const items_insert = function (item_name) {
     if (!item_name) return;
@@ -27,14 +29,7 @@ export default function App() {
       packed: false
     };
 
-    setItems(function (previous_values) {
-      return (
-        [...previous_values, new_item]
-        .sort(
-          compare_fn_create(sortBy.value)
-        )
-      );
-    });
+    setItems([...items, new_item]);
   };
 
   const items_remove_by_id = function (item) {
@@ -83,21 +78,14 @@ export default function App() {
     setItems(structuredClone(INITIAL_ITEMS));
   };
 
-  const items_sort_by = function (value) {
-    setItems(function (prev_items) {
-      return prev_items.toSorted(compare_fn_create(value));
-    }); 
-  };
-
-  const on_sort_handler = function (option) {
-    setSortBy(option);
-    items_sort_by(option.value);
-  };
-
   const items_get_total_packed = items.reduce(function (initial_value, item) {
     if (item.packed) initial_value += 1;
     return initial_value;
   }, 0);
+
+  useEffect(function () {
+    localStorage.setItem("items", JSON.stringify(items));
+  }, [items]);
 
   console.log('rendering app...');
   return (
@@ -111,19 +99,11 @@ export default function App() {
           </p>
         </header>
         <main className="main">
-          <List>
-            <Select 
-              className="list__sort" 
-              defaultValue={sortBy}
-              onChange={on_sort_handler}
-              options={SORT_OPTIONS} 
-            />
-            <ListItem 
-              items={items} 
-              onDeleteItem={items_remove_by_id}
-              onCheckItem={items_set_packed_by_id}
-            />    
-          </List>
+          <List 
+            items={items}
+            onDeleteItem={items_remove_by_id}
+            onCheckItem={items_set_packed_by_id}
+          />
           <div className="sidebar main__sidebar">
             <AddItem onAddItem={items_insert} />
             <ButtonContainer 

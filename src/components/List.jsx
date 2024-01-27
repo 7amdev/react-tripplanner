@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Select from "react-select";
 
 import ListItem from "./ListItem";
@@ -12,7 +12,9 @@ export default function List ({
 }) {
   const [sortBy, setSortBy] = useState(SORT_OPTIONS[0]);
 
-  const sorted_items = [...items].sort(compare_fn_create(sortBy.value));
+  const sorted_items = useMemo(function () {
+    return [...items].sort(compare_fn_create(sortBy.value))
+  }, [items, sortBy]);
 
   return (
     <ul className="list main__list">

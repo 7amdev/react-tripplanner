@@ -1,4 +1,8 @@
-import MainContainer from "./MainContainer";
+import ItemsContextProvider from "../contexts/itemsContextProvider";
+import Header from "./Header";
+import List from "./List";
+import AddItem from "./AddItem";
+import ButtonContainer from "./ButtonContainer";
 
 export default function App() {
   console.log('rendering app...');
@@ -6,7 +10,16 @@ export default function App() {
     <>   
       <h1 className="background-heading">Tripplanner</h1>
       <section className="container">
-        <MainContainer />
+        <ItemsContextProvider>
+          <Header />
+          <main className="main">
+            <List />
+            <div className="sidebar main__sidebar">
+              <AddItem />
+              <ButtonContainer />
+            </div>
+          </main>
+        </ItemsContextProvider>        
       </section>
       <footer className="footer">
         <small className="footer__copyright">&copy; 2024 Copyright by Alfredom.</small>

@@ -1,8 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { ItemsContext } from "../contexts/itemsContextProvider";
 
 export default function AddItem ({ onAddItem }) {
   const [item, setItem] = useState('');
   const input_el = useRef();
+  const { items_insert } = useContext(ItemsContext);
 
   useEffect(function () {
     input_el.current.focus();
@@ -12,10 +14,11 @@ export default function AddItem ({ onAddItem }) {
     event.preventDefault();
     if (!item) {
       alert('Cannot insert empty value...');
+      input_el.current.focus();
       return;
     } 
     
-    onAddItem(item);
+    items_insert(item);
     setItem('');
   };
 

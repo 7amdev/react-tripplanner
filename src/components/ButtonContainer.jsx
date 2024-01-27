@@ -1,32 +1,37 @@
-export default function ButtonContainer ({ 
-  setAllItemsPacked, 
-  setAllItemsUnpacked,
-  resetItems,
-  removeAllItems
-}) {
+import { useContext } from "react";
+import { ItemsContext } from "../contexts/itemsContextProvider";
+
+export default function ButtonContainer () {
+  const {
+    items_set_all_packed, 
+    items_set_all_unpacked,
+    items_reset,
+    items_remove_all
+  } = useContext(ItemsContext);
+
   return (
     <section className="button-group">
       <button 
         className="button button_fs_14px button_mb_10px button_bc_lg"
-        onClick={setAllItemsPacked}
+        onClick={items_set_all_packed}
       >
           Mark all as complete
       </button>
       <button 
         className="button button_fs_14px button_mb_10px button_bc_lg"
-        onClick={setAllItemsUnpacked}
+        onClick={items_set_all_unpacked}
       >
           Mark all as incomplete
       </button>
       <button 
         className="button button_fs_14px button_mb_10px button_bc_lg"
-        onClick={resetItems}
+        onClick={items_reset}
       >
           Reset to initial
       </button>
       <button 
         className="button button_fs_14px button_mb_10px button_bc_lg"
-        onClick={removeAllItems}
+        onClick={items_remove_all}
       >
         Remove all items
       </button>

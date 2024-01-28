@@ -1,3 +1,5 @@
+import { INITIAL_ITEMS } from "../lib/constants";
+
 export default function ButtonContainer ({ 
   setAllItemsPacked, 
   setAllItemsUnpacked,

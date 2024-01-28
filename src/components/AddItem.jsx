@@ -1,8 +1,12 @@
 import { useEffect, useRef, useState } from "react";
+import { useItemsStore } from "../store/itemsStore";
 
 export default function AddItem ({ onAddItem }) {
   const [item, setItem] = useState('');
   const input_el = useRef();
+  const items_insert = useItemsStore(function (state) {
+    return state.items_insert;
+  });
 
   useEffect(function () {
     input_el.current.focus();
@@ -15,7 +19,7 @@ export default function AddItem ({ onAddItem }) {
       return;
     } 
     
-    onAddItem(item);
+    items_insert(item);
     setItem('');
   };
 

@@ -6,10 +6,6 @@ import { SORT_OPTIONS } from "../lib/constants";
 import { compare_fn_create } from "../lib/utils";
 import { useItemsStore } from "../store/itemsStore";
 
-// items={items}
-// onDeleteItem={items_remove_by_id}
-// onCheckItem={items_set_packed_by_id}
-
 export default function List () {
   const { 
     items, 

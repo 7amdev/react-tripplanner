@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ItemsContext } from "../contexts/itemsContextProvider";
+import { ItemsContext } from "../contexts/ItemsContextProvider";
 
 export default function ButtonContainer () {
   const {
